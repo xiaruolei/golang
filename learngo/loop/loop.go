@@ -17,7 +17,8 @@ func convertToBin(n int) string {
 }
 
 func printFile(filename string)  {
-	base := "/Users/rxia/go/src/imooc/learngo/loop/"
+	//base := "/Users/ruolei/go/src/imooc/learngo/loop/"
+	base := "./loop/"
 	file, err := os.Open(base + filename)
 	if err != nil {
 		panic(err)
