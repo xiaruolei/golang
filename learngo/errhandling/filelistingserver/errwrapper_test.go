@@ -74,33 +74,24 @@ func TestErrWrapper(t *testing.T) {
 			"http://www.imooc.com", nil)
 		f(response, request)
 
-		verifyResponse(response.Result(),
-			tt.code, tt.message, t)
+		verifyResponse(response.Result(), tt.code, tt.message, t)
 	}
 }
 
 func TestErrWrapperInServer(t *testing.T) {
 	for _, tt := range tests {
 		f := errWrapper(tt.h)
-		server := httptest.NewServer(
-			http.HandlerFunc(f))
+		server := httptest.NewServer(http.HandlerFunc(f))
 		resp, _ := http.Get(server.URL)
 
-		verifyResponse(
-			resp, tt.code, tt.message, t)
+		verifyResponse(resp, tt.code, tt.message, t)
 	}
 }
 
-func verifyResponse(resp *http.Response,
-	expectedCode int, expectedMsg string,
-	t *testing.T) {
+func verifyResponse(resp *http.Response, expectedCode int, expectedMsg string, t *testing.T) {
 	b, _ := ioutil.ReadAll(resp.Body)
 	body := strings.Trim(string(b), "\n")
-	if resp.StatusCode != expectedCode ||
-		body != expectedMsg {
-		t.Errorf("expect (%d, %s); "+
-			"got (%d, %s)",
-			expectedCode, expectedMsg,
-			resp.StatusCode, body)
+	if resp.StatusCode != expectedCode || body != expectedMsg {
+		t.Errorf("expect (%d, %s); "+ "got (%d, %s)", expectedCode, expectedMsg, resp.StatusCode, body)
 	}
 }
